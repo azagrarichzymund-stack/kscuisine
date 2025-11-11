@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en"><!-- Basic -->
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">   
+   
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+     <!-- Site Metas -->
+    <title>Menu</title>  
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">    
+	<!-- Site CSS -->
+    <link rel="stylesheet" href="css/style.css">    
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/custom.css">
+		<style>
+		  .custom-container {
+		    background-color: #f8f9fa; /* Adjust the shade of gray as needed */
+		    color: #333; /* Set the text color */
+		  }
+		</style>
+
+</head>
+
+<body>
+	<!-- Start header -->
+	<header class="top-navbar">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<div class="container">
+				<a class="navbar-brand" href="admin.html">
+					<img src="images/logo.png" height="80" alt="" />
+				</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-rs-food" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+				  <span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbars-rs-food">
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item"><a class="nav-link" href="admin.html">Home</a></li>
+						<li class="nav-item actve"><a class="nav-link" href="menulist.html">Menu</a></li>
+						<li class="nav-item"><a class="nav-link" href="transactions.html">Transactions</a></li>
+						<li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#logoutModal">Logout</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<!-- End header -->
+
+
+	<div class="about-sections-box" >
+		<div class="custom-container container" style="padding-top: 200px;">
+		  <div class="row">
+		    <div class="col-md-4">
+		      <button class="btn btn-secondary mb-3" type="button" data-toggle="collapse" data-target="#newMenuForm" aria-expanded="false" aria-controls="newMenuForm">
+		      	<i class="fa fa-cog fa-spin"></i>
+		        Toggle Form
+		      </button>
+		    </div>
+		   	<div class="col-md-4">
+
+		    </div>
+
+		    <div class="col-md-4">
+		      <div class="input-group mb-3">
+		        <input type="text" id="searchInput" class="form-control" placeholder="Search by Menu Name">
+		        <div class="input-group-append">
+		          <button id="searchButton" class="btn btn-outline-secondary" type="button">
+		            <i class="fa fa-search"></i>
+		          </button>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+
+		  <div class="row">
+		    <div class="col-md-12">
+		      <div class="collapse" id="newMenuForm">
+		        <form class="gray-form">
+		          <div class="form-row">
+		            <h4>Add New Food</h4>
+		          </div>
+		          <div class="form-row">
+		            <div class="form-group col-md-3">
+		              <label for="menuName">Menu Name:</label>
+		              <input type="text" class="form-control" id="menuName" name="menuName" required>
+		            </div>
+		            <div class="form-group col-md-5">
+		              <label for="description">Description:</label>
+		              <input type="text" class="form-control" id="description" name="description" required>
+		            </div>
+		            <div class="form-group col-md-2">
+		              <label for="price">Price:</label>
+		              <input type="number" class="form-control" id="price" name="price" min="0" step="0.01" required>
+		            </div>
+					<!-- Availability input -->
+					<div class="form-group">
+					  <label for="availability">Availability:</label>
+					  <select id="availability" class="form-control" required>
+					    <option value="yes">Yes</option>
+					    <option value="no">No</option>
+					  </select>
+					</div>
+		          </div>
+		          <div class="form-row">
+		            <div class="form-group col-md-12">
+		              <button type="button" id="add-button" class="btn btn-success">Add</button>
+		            </div>
+		          </div>
+		        </form>
+		      </div>
+		    </div>
+		  </div>
+
+		  <div class="row">
+
+		  </div>
+
+		  <div class="row">
+		    <div class="col-md-12">
+		      <table class="table table-striped">
+		        <thead class="thead-dark">
+		          <tr>
+		            <th>Menu ID</th>
+		            <th>Menu Name</th>
+		            <th>Description</th>
+		            <th>Price</th>
+		            <th>Availability</th>
+		            <th>Update</th>
+		            <th>Delete</th>
+		          </tr>
+		        </thead>
+		        <tbody id="user-table"></tbody>
+		      </table>
+		    </div>
+		  </div>
+		</div>
+      
+  </div>
+
+		<!-- Modal for Update -->
+		<div id="update-modal" class="modal fade" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title">Update Item</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <form id="update-form">
+		          <div class="form-group">
+		            <label for="update-fname">Menu Name:</label>
+		            <input type="hidden" id="update-id">
+		            <input type="text" id="update-fname" class="form-control" name="fname" required>
+		          </div>
+
+		          <div class="form-group">
+		            <label for="update-lname">Menu Description:</label>
+		            <input type="text" id="update-lname" class="form-control" name="lname" required>
+		          </div>
+
+		          <div class="form-group">
+		            <label for="update-username">Price:</label>
+		            <input type="text" id="update-username" class="form-control" name="username" required>
+		          </div>
+
+					<div class="form-group">
+					  <label for="update-email">Availability:</label>
+					  <select id="update-availability" class="form-control" name="availability" required>
+					    <option value="yes">Yes</option>
+					    <option value="no">No</option>
+					  </select>
+					  <input type="hidden" id="update-password">
+					</div>
+
+
+		          <button type="submit" id="update-button-modal" class="btn btn-primary">Update</button>
+		        </form>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+		<!-- Modal for Delete -->
+		<div id="delete-modal" class="modal fade" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title">Delete Item</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <p>Are you sure you want to delete this item?</p>
+		        <input type="hidden" id="delete-userid">
+		        <input type="hidden" id="delete-fname">
+		        <input type="hidden" id="delete-lname">
+		        <input type="hidden" id="delete-username">
+		        <input type="hidden" id="delete-email">
+		        <input type="hidden" id="delete-password">
+		        <button id="delete-button-modal" class="btn btn-danger">Delete</button>
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+		<!-- Logout Modal -->
+		<div class="modal" id="logoutModal" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title">Confirm Logout</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <p>Are you sure you want to log out?</p>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+		        <button type="button" class="btn btn-danger" id="logout-btn">Logout</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	
+	<!-- Start Contact info -->
+	<div class="contact-imfo-box">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 arrow-right">
+					<i class="fa fa-volume-control-phone"></i>
+					<div class="overflow-hidden">
+						<h4>Phone</h4>
+						<p class="lead">
+							+63 997 163 4841
+						</p>
+					</div>
+				</div>
+				<div class="col-md-4 arrow-right">
+					<i class="fa fa-envelope"></i>
+					<div class="overflow-hidden">
+						<h4>Email</h4>
+						<p class="lead">
+							genobebe10@gmail.com
+						</p>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<i class="fa fa-map-marker"></i>
+					<div class="overflow-hidden">
+						<h4>Location</h4>
+						<p class="lead">
+							105, Samson Road St, Caloocan
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Contact info -->
+	
+	<!-- Start Footer -->
+	<footer class="footer-area bg-f">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-6">
+					<h3>About Us</h3>
+					<p>KS Cuisine is a food business that started by selling baked beef lasagna. The owner, a passionate cook, started the business with the goal of sharing her love of food with others. As the business began to grow, the owner saw an opportunity to expand the menu by adding more dishes that she personally enjoyed and believed would be popular among her customers.</p>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<h3>Subscribe</h3>
+					<div class="subscribe_form">
+						<form class="subscribe_form">
+							<input name="EMAIL" id="subs-email" class="form_input" placeholder="Email Address..." type="email">
+							<button type="submit" class="submit">SUBSCRIBE</button>
+							<div class="clearfix"></div>
+						</form>
+					</div>
+					<ul class="list-inline f-social">
+						<li class="list-inline-item"><a href="https://www.facebook.com/profile.php?id=100068002704860"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+						<li class="list-inline-item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+						<li class="list-inline-item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+						<li class="list-inline-item"><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+						<li class="list-inline-item"><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+					</ul>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<h3>Contact information</h3>
+					<p class="lead">UE-Caloocan, Samson Road, Caloocan, Philippines</p>
+					<p class="lead"><a href="#">+63 997 163 4841</a></p>
+					<p><a href="#"> genobebe10@gmail.com</a></p>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<h3>Opening hours</h3>
+					<p><span class="text-color">Monday: </span>Closed</p>
+					<p><span class="text-color">Tue-Wed :</span> 9:AM - 10PM</p>
+					<p><span class="text-color">Thu-Fri :</span> 9:AM - 10PM</p>
+					<p><span class="text-color">Sat-Sun :</span> 5:PM - 10PM</p>
+				</div>
+			</div>
+		</div>
+		
+		<div class="copyright">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<p class="company-name">All Rights Reserved. &copy; 2025 <a href="#">KS Cuisine</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</footer>
+	<!-- End Footer -->
+	
+	<a href="#" id="back-to-top" title="Back to top" style="display: none;"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></a>
+
+	<!-- ALL JS FILES -->
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+    <!-- ALL PLUGINS -->
+	<script src="js/jquery.superslides.min.js"></script>
+	<script src="js/images-loded.min.js"></script>
+	<script src="js/isotope.min.js"></script>
+	<script src="js/baguetteBox.min.js"></script>
+	<script src="js/form-validator.min.js"></script>
+  <script src="js/contact-form-script.js"></script>
+  <script src="js/custom.js"></script>
+
+  <script type="module">
+	 // Import the functions you need from the SDKs you need
+		import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js';
+		import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-analytics.js";
+		
+		// TODO: Add SDKs for Firebase products that you want to use
+		// https://firebase.google.com/docs/web/setup#available-libraries
+
+		// Your web app's Firebase configuration
+		// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+		const firebaseConfig = {
+		  apiKey: "AIzaSyB4mZ38aXTLeiQdnlr6qfweQioYKG0j1yU",
+		  authDomain: "ks-cuisine.firebaseapp.com",
+		  databaseURL: "https://ks-cuisine-default-rtdb.firebaseio.com",
+		  projectId: "ks-cuisine",
+		  storageBucket: "ks-cuisine.appspot.com",
+		  messagingSenderId: "446458909737",
+		  appId: "1:446458909737:web:8976d968b60ae0b3f0f838",
+		  measurementId: "G-4DW5VGPK6B"
+		};
+
+		import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail, updateEmail, deleteUser } from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js'
+		import { getDatabase, ref, set, limitToLast, get, orderByKey, query, equalTo, onValue, orderByChild, remove, update, child } from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js';
+
+		// Initialize Firebase
+		const app = initializeApp(firebaseConfig);
+		const analytics = getAnalytics(app);
+		const auth = getAuth();
+		const database = getDatabase();
+		const menuRef = ref(database, 'Items');
+		const menuTable = document.getElementById('user-table');
+		const updateButtonModal = document.getElementById('update-button-modal');
+		const deleteButtonModal = document.getElementById('delete-button-modal')
+		const addNewItem = document.getElementById('add-button');
+		const logoutBtn = document.getElementById('logout-btn');
+
+				// Array to store selected user details
+	  	let selectedUser = [];
+
+	  	function validateForm() {
+			  const menuNameInput = document.getElementById('menuName');
+			  const descriptionInput = document.getElementById('description');
+			  const priceInput = document.getElementById('price');
+			  const availabilityInput = document.getElementById('availability');
+
+			  const alphabeticPattern = /^[A-Za-z\s.,-éÉ]+$/;
+			  const numericPattern = /^(?!0\d)\d+(\.\d{1,2})?$/;
+
+			  if (!alphabeticPattern.test(menuNameInput.value)) {
+			    alert('Invalid menu name. Please enter alphabetic characters only.');
+			    return false;
+			  }
+
+			  if (!alphabeticPattern.test(descriptionInput.value)) {
+			    alert('Invalid description. Please enter alphabetic characters only.');
+			    return false;
+			  }
+
+			  if (!numericPattern.test(priceInput.value)) {
+			    alert('Invalid price. Please enter a valid numeric value.');
+			    return false;
+			  }
+			   const price = parseFloat(priceInput.value);
+			  if (price <= 0) {
+			    alert('Price must be greater than 0.');
+			    return false;
+			  }
+
+			  return true;
+			}
+
+		addNewItem.addEventListener('click', async () => {
+			event.preventDefault();
+
+			if(!validateForm()) {
+				return;
+			}
+
+		  const name = document.getElementById('menuName');
+		  const description = document.getElementById('description');
+		  const price = document.getElementById('price');
+		  const availability = document.getElementById('availability');
+
+		   // Check if any of the form fields are empty
+		  if (name.value === '' || description.value === '' || price.value === '') {
+		    alert('Please fill in all the form fields.');
+		    return;
+		  }
+
+		   // Check if the menu name already exists in the database
+		  const menuNameExists = await checkMenuNameExists(name.value);
+		  if (menuNameExists) {
+		    alert('Menu name already exists. Please choose a different name.');
+		    return;
+		  }
+
+		  // Retrieve the items from the database
+		  get(ref(database, 'Items')).then((snapshot) => {
+		    const items = snapshot.val();
+		    let lastItemId = 0;
+
+		    if (items) {
+		      // Loop through the items to find the last item ID
+		      Object.keys(items).forEach((itemId) => {
+		        const currentItemId = parseInt(itemId, 10);
+		        if (currentItemId > lastItemId) {
+		          lastItemId = currentItemId;
+		        }
+		      });
+		    }
+
+		    // Generate the new item ID by adding 1 to the last item ID
+		    const newItemId = lastItemId + 1;
+
+		    // Create a new item object
+		    const newItem = {
+		      itemId: newItemId.toString(),
+		      name: name.value,
+		      description: description.value,
+		      price: price.value,
+		      available: availability.value
+		    };
+
+		    // Set the new item in the database using the generated ID
+		    set(ref(database, `Items/${newItemId}`), newItem)
+		      .then(() => {
+		        alert('New menu item added successfully!');
+		        // Additional logic after successful insertion
+		        name.value = "";
+		        description.value = "";
+		        price.value = "";
+		        availability.value = "";
+		      })
+		      .catch((error) => {
+		        console.log('Error adding new menu item:', error);
+		      });
+		  })
+		  .catch((error) => {
+		    console.log('Error retrieving last item ID:', error);
+		  });
+		});
+
+		async function checkMenuNameExists(menuName) {
+		  const snapshot = await get(ref(database, 'Items'));
+		  const items = snapshot.val();
+
+		  if (items) {
+		    // Loop through the items to check if any item has the same menu name (case-insensitive)
+		    for (const itemId in items) {
+		      if (items[itemId].name.toLowerCase() === menuName.toLowerCase()) {
+		        return true; // Menu name already exists
+		      }
+		    }
+		  }
+
+		  return false; // Menu name does not exist
+		}
+
+	updateButtonModal.addEventListener('click', async () => {
+		event.preventDefault(); 
+		try {
+			const itemId = document.getElementById('update-id');
+			const name = document.getElementById('update-fname');
+			const description = document.getElementById('update-lname');
+			const price = document.getElementById('update-username');
+			const availability = document.getElementById('update-availability');
+
+			// Check if the menu name or description fields are empty
+		    if (name.value.trim() === '' || description.value.trim() === '') {
+		      alert('Please enter a menu name and description.');
+		      return;
+		    }
+			// Validate the price input
+		    const numericPattern = /^(?!0\d)\d+(\.\d{1,2})?$/;
+		    if (!numericPattern.test(price.value)) {
+		      alert('Invalid price. Please enter a valid numeric value.');
+		      return;
+		    }
+
+		    const updatedPrice = parseFloat(price.value);
+		    if (updatedPrice <= 0) {
+		      alert('Price must be greater than 0.');
+		      return;
+		    }
+
+		    // Check if the updated menu name already exists
+		    const isMenuNameExists = await checkMenuNameExists(name.value.trim());
+		    if (isMenuNameExists) {
+		      alert('Menu name already exists. Please choose a different menu name.');
+		      return;
+		    }
+
+			// get the updated user values and store it
+			const updatedMenuDetails = {
+				name: name.value,
+				description: description.value,
+				price: price.value,
+				available: availability.value
+			};
+					// Update the user data in the database
+          update(ref(database, `Items/${itemId.value}`), updatedMenuDetails)
+            .then(() => {
+              alert('Menu updated successfully!');
+              $('#update-modal').modal('hide');
+            })
+            .catch((error) => {
+              console.log('Error updating menu:', error);
+            });
+	      
+					// const userQuery = 
+				}catch(error) {
+					console.log("Error: ", error);
+				}
+			});
+
+			// Logout any authenticated user from admin
+			logoutBtn.addEventListener('click', async () => {
+			  await signOut(auth);
+				window.location.href = 'index.html';
+				alert("Admin has been logout.");
+
+			});
+
+			deleteButtonModal.addEventListener('click', async () => {
+			  try {
+			    const userId = document.getElementById('delete-userid').value;
+			    
+			    // Delete user from Realtime Database
+			    remove(ref(database, `Items/${userId}`))
+			    	.then(() => {
+			    		console.log('Item deleted from Realtime Database successfully');			    
+			    		alert('Menu deleted successfully!');
+			    		$('#delete-modal').modal('hide');
+			    	}).catch((error) => {
+			    			console.error('Error deleting menu:', error);
+			    	})
+
+			    // Perform any additional actions or UI updates after deletion
+			  } catch (error) {
+			    console.error('Error deleting menu:', error);
+			    // Handle the error accordingly
+			  }
+			});
+
+			// Get the search input and search button elements
+			const searchInput = document.getElementById('searchInput');
+			const searchButton = document.getElementById('searchButton');
+
+			// Attach a click event listener to the search button
+			searchButton.addEventListener('click', () => {
+			  // Get the search value
+			  const searchTerm = searchInput.value.toLowerCase().trim();
+
+			  // Get all the table rows
+			  const tableRows = document.querySelectorAll('#user-table tr');
+
+			  // Loop through the rows and hide/show based on the search term
+			  tableRows.forEach((row) => {
+			    const menuName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+			    if (menuName.includes(searchTerm)) {
+			      row.style.display = '';
+			    } else {
+			      row.style.display = 'none';
+			    }
+			  });
+			});
+
+		function populateUserTable(snapshot) {
+		  // Clear the user table
+		  menuTable.innerHTML = '';
+
+		  // Iterate through the users
+		  snapshot.forEach((menuSnapshot) => {
+		    const item = menuSnapshot.val();
+		    const row = document.createElement('tr');
+		    row.innerHTML = `
+		      <td>${item.itemId}</td>
+		      <td>${item.name}</td>
+		      <td>${item.description}</td>
+		      <td>₱ ${item.price}</td>
+		      <td>${item.available}</td>
+		      <td><button class="btn btn-primary update-btn" data-toggle="modal" data-target="#update-modal" data-user-id="${item.itemId}"><i class="fa fa-pencil"></i></button></td>
+		      <td><button class="btn btn-danger delete-btn" data-toggle="modal" data-target="#delete-modal" data-user-id="${item.itemId}"><i class="fa fa-trash"></i></button></td>
+		    `;
+		    menuTable.appendChild(row);
+
+		    // Add click event listener to the update button in each row
+		    const updateButton = row.querySelector('.update-btn');
+		    updateButton.addEventListener('click', () => {
+		    	const itemId = item.itemId;
+				  const name = item.name;
+				  const description = item.description;
+				  const price = item.price;
+				  const availability = item.available;
+
+				  // Insert each fields in an array
+		      selectedUser = [itemId, name, description, price, availability];
+		      document.getElementById('update-id').value = selectedUser[0];
+		      document.getElementById('update-fname').value = selectedUser[1];
+		      document.getElementById('update-lname').value = selectedUser[2];
+		      document.getElementById('update-username').value = selectedUser[3];
+		      document.getElementById('update-availability').value = selectedUser[4];
+		      document.getElementById('update-password').value = selectedUser[5];
+
+		      console.log(selectedUser); // Generate the selected user details to the console
+
+		    });
+
+		    // Add click event listener to the delete button in each row
+		    const deleteButton = row.querySelector('.delete-btn');
+		    deleteButton.addEventListener('click', () => {
+		    	const itemId = item.itemId;
+				  const name = item.name;
+				  const description = item.description;
+				  const price = item.price;
+				  const availability = item.available;
+		      
+				  // Insert each fields in an array
+		      selectedUser = [itemId, name, description, price, availability];
+		      document.getElementById('delete-userid').value = selectedUser[0];
+		      document.getElementById('delete-fname').value = selectedUser[1];
+		      document.getElementById('delete-lname').value = selectedUser[2];
+		      document.getElementById('delete-username').value = selectedUser[3];
+		      document.getElementById('delete-email').value = selectedUser[4];
+		      document.getElementById('delete-password').value = selectedUser[5];
+
+		      console.log(selectedUser); // Generate the selected user details to the console
+
+		    });
+			});
+		}
+
+		onValue(menuRef, (snapshot) => {
+		  populateUserTable(snapshot);
+		});
+
+</script>
+  
+</body>
+</html>

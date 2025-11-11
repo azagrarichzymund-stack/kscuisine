@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en"><!-- Basic -->
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">   
+   
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+     <!-- Site Metas -->
+    <title>Reservation</title>  
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">    
+	<!-- Site CSS -->
+    <link rel="stylesheet" href="css/style.css">    
+	<!-- Pickadate CSS -->
+    <link rel="stylesheet" href="css/classic.css">    
+	<link rel="stylesheet" href="css/classic.date.css">    
+	<link rel="stylesheet" href="css/classic.time.css">  
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">  
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/custom.css">
+
+    <style type="text/css">
+    	.order-form .container {
+      color: #4c4c4c;
+      padding: 20px;
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
+      max-width: 650px;
+    }
+
+    .order-form-label {
+      margin: 8px 0 0 0;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+		.order-form-input,
+		.form-label,
+		.form-check-label {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+
+    }
+
+    .btn-submit:hover {
+      background-color: #0D47A1 !important;
+    }
+    .small-input {
+		  width: 70px;
+		}
+		.number-input {
+		  -webkit-appearance: textfield;
+		}
+    </style>
+
+</head>
+
+<body>
+	<!-- Start header -->
+	<header class="top-navbar">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<div class="container">
+				<a class="navbar-brand" href="index.html">
+					<img src="images/logo.png" height="80"  alt="" />
+				</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-rs-food" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+				  <span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbars-rs-food">
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+						<li class="nav-item"><a class="nav-link" href="menu.html">Menu</a></li>
+						<li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+						<li class="nav-item active dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Pages</a>
+							<div class="dropdown-menu" aria-labelledby="dropdown-a">
+								<a class="dropdown-item" href="reservation.html">Reservation</a>
+								<a class="dropdown-item" href="stuff.html">Staff</a>
+								<a class="dropdown-item" href="gallery.html">Gallery</a>
+							</div>
+						</li>
+						<li class="nav-item"><a class="nav-link" href="activity.html">Activity</a></li>
+						<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<!-- End header -->
+
+	<!-- Warning Modal -->
+	<div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="warningModalLabel">Warning: User Not Logged In</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <p>You must log in first to make a transaction.</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" id="closeButton" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<!-- Start All Pages -->
+	<div class="all-page-title page-breadcrumb">
+		<div class="container text-center">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1>Reservation</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End All Pages -->
+	
+	<!-- Start Reservation -->
+	<div class="reservation-box order-form m-4">
+	  <div class="container pt-4">
+	    <h1>Food Order Form</h1>
+	    <form id="orderForm">
+	      <h4>Order Details</h4>
+	      <div class="form-row">
+	      		<div class="form-group col-md-6">
+	      			 <label for="item">Items:</label>
+	        		 <select class="form-control" id="item">
+	        		 </select>
+	      		</div>
+	      		<div class="form-group col-md-2">
+			        <label for="quantity">Quantity:</label>
+			        <input type="number" class="form-control" id="quantity" min="1" max="10" step="1" value="1">
+			      </div>
+	      </div>
+
+	      <div id="orderDetailsSection">
+	      </div>
+
+	      <div id="orderItems"></div>
+	      <button type="button" class="btn btn-success" id="addButton">
+	        <i class="fa fa-plus"></i> 
+	      </button>
+
+
+
+	      
+	      <hr>
+	      
+	      <h4>Delivery Details</h4>
+	      <div class="form-group">
+	        <label for="deliveryDate">Date of Delivery:</label>
+	        <input type="date" class="form-control" id="deliveryDate" required>
+	      </div>
+	        <div class="form-row">
+				    <div class="form-group col-md-4">
+				      <label for="houseNumber">House #:</label>
+				      <input type="text" class="form-control" id="houseNumber" required>
+				    </div>
+				    <div class="form-group col-md-8">
+				      <label for="street">Street:</label>
+				      <input type="text" class="form-control" id="street" required>
+				    </div>
+				  </div>
+
+				  <div class="form-row">
+				    <div class="form-group col-md-6">
+				      <label for="district">Barangay:</label>
+				      <input type="text" class="form-control" id="barangay" required>
+				    </div>
+				    <div class="form-group col-md-6">
+				      <label for="city">City:</label>
+				      <input type="text" class="form-control" id="city" required>
+				    </div>
+				  </div>
+
+	      <div class="form-group">
+	        <label>Mode of Payment:</label>
+	        <div class="form-check">
+	          <input class="form-check-input" type="radio" name="paymentMode" id="cod" value="Cash on Delivery" checked>
+	          <label class="form-check-label" for="cod">
+	            Cash on Delivery (COD)
+	          </label>
+	        </div>
+	        <div class="form-check">
+	          <input class="form-check-input" type="radio" name="paymentMode" id="gcash" value="Gcash">
+	          <label class="form-check-label" for="gcash">
+	            GCash
+	          </label>
+	        </div>
+	      </div>
+
+	      <div class="form-group" id="qrCodeContainer" style="display: none;">
+	        <label for="qrCode">GCash QR Code:</label>
+	        <img src="" id="qrCode" alt="QR Code" width="200">
+	      </div>
+
+	      <hr>
+	      <button type="button" class="btn btn-primary" id="previewButton">Preview Order</button>
+
+	    </form>
+	  </div>
+	</div>
+	<!-- End Reservation -->
+
+	<!--Receipt Modal -->
+	<div class="modal fade" id="receiptModal" tabindex="-1" role="dialog" aria-labelledby="receiptModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h2 class="modal-title" id="receiptModalLabel">Order Receipt</h2>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <div id="orderSummary"></div>
+	      </div>
+	      <div class="modal-footer">
+	      	<button type="button" class="btn btn-primary" id="checkoutButton">
+          	<i class="fa fa-shopping-cart mr-2"></i> Checkout
+        	</button>
+	        <button type="button" id="close-button-receipt" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	
+	<!-- Start Contact info -->
+	<div class="contact-imfo-box">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 arrow-right">
+					<i class="fa fa-volume-control-phone"></i>
+					<div class="overflow-hidden">
+						<h4>Phone</h4>
+						<p class="lead">
+							+63 997 163 4841
+						</p>
+					</div>
+				</div>
+				<div class="col-md-4 arrow-right">
+					<i class="fa fa-envelope"></i>
+					<div class="overflow-hidden">
+						<h4>Email</h4>
+						<p class="lead">
+							genobebe10@gmail.com
+						</p>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<i class="fa fa-map-marker"></i>
+					<div class="overflow-hidden">
+						<h4>Location</h4>
+						<p class="lead">
+							105, Samson Road St, Caloocan
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Contact info -->
+	
+	<!-- Start Footer -->
+	<footer class="footer-area bg-f">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-6">
+					<h3>About Us</h3>
+					<p>KS Cuisine is a food business that started by selling baked beef lasagna. The owner, a passionate cook, started the business with the goal of sharing her love of food with others. As the business began to grow, the owner saw an opportunity to expand the menu by adding more dishes that she personally enjoyed and believed would be popular among her customers.</p>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<h3>Subscribe</h3>
+					<div class="subscribe_form">
+						<form class="subscribe_form">
+							<input name="EMAIL" id="subs-email" class="form_input" placeholder="Email Address..." type="email">
+							<button type="submit" class="submit">SUBSCRIBE</button>
+							<div class="clearfix"></div>
+						</form>
+					</div>
+					<ul class="list-inline f-social">
+						<li class="list-inline-item"><a href="https://www.facebook.com/profile.php?id=100068002704860"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+						<li class="list-inline-item"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+						<li class="list-inline-item"><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+						<li class="list-inline-item"><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+						<li class="list-inline-item"><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+					</ul>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<h3>Contact information</h3>
+					<p class="lead">UE-Caloocan, Samson Road, Caloocan, Philippines</p>
+					<p class="lead"><a href="#">+63 997 163 4841</a></p>
+					<p><a href="#"> genobebe10@gmail.com</a></p>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<h3>Opening hours</h3>
+					<p><span class="text-color">Monday: </span>Closed</p>
+					<p><span class="text-color">Tue-Wed :</span> 9:AM - 10PM</p>
+					<p><span class="text-color">Thu-Fri :</span> 9:AM - 10PM</p>
+					<p><span class="text-color">Sat-Sun :</span> 5:PM - 10PM</p>
+				</div>
+			</div>
+		</div>
+		
+		<div class="copyright">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<p class="company-name">All Rights Reserved. &copy; 2025 <a href="#">KS Cuisine</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</footer>
+	<!-- End Footer -->
+	
+	<a href="#" id="back-to-top" title="Back to top" style="display: none;"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></a>
+
+	<!-- ALL JS FILES -->
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+    <!-- ALL PLUGINS -->
+	<script src="js/jquery.superslides.min.js"></script>
+	<script src="js/images-loded.min.js"></script>
+	<script src="js/isotope.min.js"></script>
+	<script src="js/baguetteBox.min.js"></script>
+	<script src="js/picker.js"></script>
+	<script src="js/picker.date.js"></script>
+	<script src="js/picker.time.js"></script>
+	<script src="js/legacy.js"></script>
+	<script src="js/form-validator.min.js"></script>
+    <script src="js/contact-form-script.js"></script>
+    <script src="js/custom.js"></script>
+  <script type="module">
+	 // Import the functions you need from the SDKs you need
+		import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js';
+		import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-analytics.js";
+		
+		// TODO: Add SDKs for Firebase products that you want to use
+		// https://firebase.google.com/docs/web/setup#available-libraries
+
+		// Your web app's Firebase configuration
+		// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+		const firebaseConfig = {
+		  apiKey: "AIzaSyB4mZ38aXTLeiQdnlr6qfweQioYKG0j1yU",
+		  authDomain: "ks-cuisine.firebaseapp.com",
+		  databaseURL: "https://ks-cuisine-default-rtdb.firebaseio.com",
+		  projectId: "ks-cuisine",
+		  storageBucket: "ks-cuisine.appspot.com",
+		  messagingSenderId: "446458909737",
+		  appId: "1:446458909737:web:8976d968b60ae0b3f0f838",
+		  measurementId: "G-4DW5VGPK6B"
+		};
+
+		import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js'
+		import { getDatabase, ref, set, limitToLast, get, orderByKey, query, equalTo, update, onValue } from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js';
+
+		// Initialize Firebase
+		const app = initializeApp(firebaseConfig);
+		const analytics = getAnalytics(app);
+		const auth = getAuth();
+		const database = getDatabase();
+		const userRef = ref(database, 'Users');
+		const itemsRef = ref(database, "Items");
+
+		// Collect form data
+	  const itemDropdowns = document.getElementsByName("item");
+	  const quantityFields = document.getElementsByName("quantity");
+
+	  const itemDropdownID = document.getElementById("item");
+	  const quantityDropdownID = document.getElementById("quantity");
+
+	  // Event listener for quantity input
+		quantityDropdownID.addEventListener("input", function() {
+		  const quantity = parseInt(quantityDropdownID.value);
+		  const inputValue = this.value;
+
+		   // Check if input is empty or backspace key is pressed
+		  if (quantityDropdownID.value === "" || quantityDropdownID.value < 1) {
+		    quantityDropdownID.value = "1"; // Set the value to 1
+		  }
+		  else if (inputValue > 99) {
+		  	this.value = "99";
+		  }
+
+		});
+
+		// Event listener for keydown event
+		quantityDropdownID.addEventListener("keydown", function(event) {
+		  // Check if "-" key is pressed
+		  if (event.key === "-" || event.key === "+") {
+		    event.preventDefault(); // Prevent the default behavior of inputting "-"
+		  }
+		});
+
+
+
+  // Attach an event listener to listen for changes in the items data
+	onValue(itemsRef, (snapshot) => {
+	  // Clear existing dropdown options
+	  itemDropdownID.innerHTML = "";
+
+	  // Retrieve the items from the snapshot
+	  const items = snapshot.val();
+
+	  // Filter available items
+	  const availableItems = Object.values(items).filter((item) => item.available === 'yes');
+
+	  // Iterate over the available items and create dropdown options
+	  availableItems.forEach((item) => {
+	    // Create a new <option> element
+	    const option = document.createElement("option");
+	    option.value = item.price;
+	    option.textContent = item.name;
+
+	    // Append the <option> to the dropdown
+	    itemDropdownID.appendChild(option);
+	  });
+	});
+
+		const queryRef = query(userRef, orderByKey(), limitToLast(1));
+		get(queryRef)
+			.then((snapshot) => {
+				if(snapshot.exists()) {
+					const lastChildKey = Object.keys(snapshot.val())[0];
+					sessionStorage.setItem('lastId', lastChildKey);
+				}
+				else {
+					console.log("No data available")
+				}				
+			})
+			.catch((error) => {
+				console.log("Error fetching data", error);
+			});
+
+	let emailCheck = ''
+
+		//-----------Check if there is a user currently logged in------------//
+		auth.onAuthStateChanged((user) => {
+			if (user) {
+				// A user is logged in, therefore update UI accordingly
+				console.log(`A user with email: ${user.email} is currently logged in.`);
+				emailCheck = user.email;
+				// Hide the modal
+				// $('#loginModal').modal('hide');
+			}
+			else {
+				// User is not logged in, update UI accordingly
+				console.log("No user is logged in.");
+
+				// Show the warning modal
+    	  $('#warningModal').modal('show');
+
+			}
+		});
+
+		// Close button element in the modal
+		const closeButton = document.getElementById("closeButton");
+		closeButton.addEventListener("click", () => {
+			window.location.href = "index.html";
+		})
+
+
+		// Prepare order items array
+		let orderItems = [];
+
+		// Add Item button click event
+		document.getElementById("addButton").addEventListener("click", function() {
+		  const orderForm = document.getElementById("orderDetailsSection");
+
+		  // Create new item container
+		  const newItemContainer = document.createElement("div");
+		  newItemContainer.classList.add("form-row", "mt-4");
+
+		  // Create item column
+		  const itemCol = document.createElement("div");
+		  itemCol.classList.add("form-group", "col-md-6");
+
+		  // Create item label
+		  // const itemLabel = document.createElement("label");
+		  // itemLabel.textContent = "Item:";
+		  // itemCol.appendChild(itemLabel);
+
+		  // Create item dropdown
+		  const itemDropdown = document.createElement("select");
+		  itemDropdown.classList.add("form-control");
+		  itemDropdown.name = "item";
+		  itemDropdown.id = "itemDropdownID"; // Assign an ID for reference
+
+		  itemCol.appendChild(itemDropdown);
+
+		  // Attach an event listener to listen for changes in the items data
+		  onValue(itemsRef, (snapshot) => {
+		    // Clear existing dropdown options
+		    itemDropdown.innerHTML = "";
+
+		    // Retrieve the items from the snapshot
+		    const items = snapshot.val();
+
+		    // Filter available items
+		    const availableItems = Object.values(items).filter((item) => item.available === 'yes');
+
+		    // Iterate over the available items and create dropdown options
+		    availableItems.forEach((item) => {
+		      // Create a new <option> element
+		      const option = document.createElement("option");
+		      option.value = item.price;
+		      option.textContent = item.name;
+
+		      // Append the <option> to the dropdown
+		      itemDropdown.appendChild(option);
+		    });
+		  });
+		  // Create quantity column
+		  const quantityCol = document.createElement("div");
+		  quantityCol.classList.add("form-group", "col-md-2");
+
+		  // Create quantity label
+		  // const quantityLabel = document.createElement("label");
+		  // quantityLabel.textContent = "Quantity:";
+		  // quantityCol.appendChild(quantityLabel);
+
+		  // Create quantity number field
+		  const quantityField = document.createElement("input");
+		  quantityField.type = "number";
+		  quantityField.classList.add("form-control");
+		  quantityField.name = "quantity";
+		  quantityField.min = "1";
+		  quantityField.max = "10";
+		  quantityField.step = "1";
+		  quantityField.value = "1";
+		  quantityCol.appendChild(quantityField);
+
+		  quantityField.addEventListener('input', () => {
+		  	if(quantityField.value === '' || quantityField.value < 1) {
+		  		quantityField.value = "1";
+		  	}else if(quantityField.value > 99) {
+		  		quantityField.value = "99";
+		  	}
+		  })
+
+		  // Create remove button column
+		  const removeCol = document.createElement("div");
+		  removeCol.classList.add("form-group", "col-md-1", "align-self-end");
+
+		  // Create remove button
+		  const removeButton = document.createElement("button");
+		  removeButton.type = "button";
+		  removeButton.classList.add("btn", "btn-danger");
+
+		  // Add FontAwesome icon
+		  const minusIcon = document.createElement("i");
+		  minusIcon.classList.add("fa", "fa-minus");
+
+		  removeButton.appendChild(minusIcon);
+
+		  // Remove button click event
+		  removeButton.addEventListener("click", function() {
+		    newItemContainer.remove();
+		  });
+
+		  removeCol.appendChild(removeButton);
+
+		  // Append the columns to the item container
+		  newItemContainer.appendChild(itemCol);
+		  newItemContainer.appendChild(quantityCol);
+		  newItemContainer.appendChild(removeCol);
+
+		  // Append the new item container to the order form
+		  orderForm.appendChild(newItemContainer);
+		});
+
+
+
+		// Get the close button element
+		const closeButtonModal = document.getElementById("close-button-receipt");
+
+		// Add event listener to the close button
+		closeButtonModal.addEventListener("click", function() {
+		  // Clear all items in the orderItems array
+		  orderItems = [];
+		  console.log("Order Items Clear")
+		});
+
+
+		// Mode of Payment radio button change event
+    document.getElementsByName("paymentMode").forEach(function(radio) {
+      radio.addEventListener("change", function() {
+        const qrCodeContainer = document.getElementById("qrCodeContainer");
+        const qrCode = document.getElementById("qrCode");
+
+        if (this.value === "Gcash") {
+          qrCode.src = "images/qr_code_image.jpg";
+          qrCodeContainer.style.display = "block";
+        } else {
+          qrCode.src = "";
+          qrCodeContainer.style.display = "none";
+        }
+      });
+    });
+
+    const deliveryDateField = document.getElementById("deliveryDate");
+
+		// Get the current date
+		const currentDate = new Date();
+
+		// Set the initial value to the current date
+		deliveryDateField.valueAsDate = currentDate;
+
+		// Add event listener for the input event
+		deliveryDateField.addEventListener("input", function() {
+		  const enteredDate = new Date(this.value);
+
+		  // Check if the entered date is a previous date
+		  if (enteredDate < currentDate) {
+		    this.valueAsDate = currentDate; // Reset to the current date
+		  }
+		});
+
+		const previewButton = document.getElementById("previewButton");
+
+
+
+		previewButton.disabled = true;
+
+		// deliveryAddress.addEventListener("input", function() {
+		//   previewButton.disabled = deliveryAddress.value.trim() === "";
+		// });
+
+		 const houseNumberInput = document.getElementById("houseNumber");
+	   const streetInput = document.getElementById("street");
+	   const districtInput = document.getElementById("barangay");
+	   const cityInput = document.getElementById("city");
+
+	  // Function to check if the input contains only alphabetic characters
+		function isAlphabeticInput(input) {
+		  const alphabeticPattern = /^[A-Za-z\s.]+$/;	
+		  return alphabeticPattern.test(input);
+		}
+
+		// Function to check if all delivery address inputs are filled
+		function checkDeliveryAddressInputs() {
+		  const houseNumberValue = houseNumberInput.value.trim();
+		  const streetValue = streetInput.value.trim();
+		  const districtValue = districtInput.value.trim();
+		  const cityValue = cityInput.value.trim();
+
+		  return (
+		    houseNumberValue !== '' &&
+		    isAlphabeticInput(streetValue) &&
+		    isAlphabeticInput(districtValue) &&
+		    isAlphabeticInput(cityValue) &&
+		    isValidHouseNo(houseNumberValue)
+		  );
+		}
+
+		function isValidHouseNo(houseNo) {
+		  const houseNoPattern = /^\d{1,4}$/; // Pattern to match 1 to 9999
+		  return houseNoPattern.test(houseNo);
+		}
+
+		// Add event listeners to the input fields
+		houseNumberInput.addEventListener('input', updatePreviewButtonState);
+		streetInput.addEventListener('input', updatePreviewButtonState);
+		districtInput.addEventListener('input', updatePreviewButtonState);
+		cityInput.addEventListener('input', updatePreviewButtonState);
+
+		// Function to update the state of the preview button
+		function updatePreviewButtonState() {
+		  const allInputsFilled = checkDeliveryAddressInputs();
+		  previewButton.disabled = !allInputsFilled;
+		}
+
+		// Initially update the preview button state
+		updatePreviewButtonState();
+
+		// Preview Order
+		previewButton.addEventListener("click", function() {
+		  event.preventDefault();
+
+		  const deliveryDate = document.getElementById("deliveryDate").value;
+
+		  const itemID = itemDropdownID.value;
+		  const itemNameID = itemDropdownID.options[itemDropdownID.selectedIndex];
+
+		  const quantityID = quantityDropdownID.value;
+		  const itemTotalID = itemID * quantityID;
+
+		  console.log("Selected option: " + itemNameID.text);
+
+		  // Retrieve the values from the input fields
+		  const houseNumber = document.getElementById("houseNumber").value;
+		  const street = document.getElementById("street").value;
+		  const district = document.getElementById("barangay").value;
+		  const city = document.getElementById("city").value;
+
+		  const paymentMode = document.querySelector('input[name="paymentMode"]:checked').value;
+
+		  // Add the item to the order items array
+		  const orderItems = [{
+		    name: itemNameID.text,
+		    item: itemID,
+		    quantity: quantityID,
+		    total: itemTotalID
+		  }];
+
+		  // Iterate through the item dropdowns and quantity fields
+		  for (let i = 0; i < itemDropdowns.length; i++) {
+		    const itemName = itemDropdowns[i].options[itemDropdowns[i].selectedIndex];
+		    const item = itemDropdowns[i].value;
+		    const quantity = quantityFields[i].value;
+		    const price = itemDropdowns[i].options[itemDropdowns[i].selectedIndex].value;
+		    const itemTotal = item * quantity;
+
+		    // Add the item to the order items array
+		    orderItems.push({
+		      name: itemName.text,
+		      item: item,
+		      quantity: quantity,
+		      total: itemTotal
+		    });
+		  }
+
+		  // Log the item names and totals to the console
+		  const itemDetails = orderItems.map(item => `${item.item} - Total: ${item.total}`);
+		  console.log(itemDetails);
+
+		  // Compute the total cost of all items
+		  const totalCost = orderItems.reduce((acc, cur) => acc + cur.total, 0);
+		  console.log(totalCost);
+
+		  // Build the order summary HTML
+		  let orderSummaryHTML = `
+		    <h4>Order Items:</h4>
+		    <ul>
+		  `;
+		  orderItems.forEach(item => {
+		    orderSummaryHTML += `
+		      <li>- ${item.name}: ${item.quantity} x ₱${item.item} - Total: ₱${item.total}</li>
+		    `;
+		  });
+		  orderSummaryHTML += `
+		    </ul>
+		    <p>Delivery Date: ${deliveryDateField.value}</p>
+		    <p>Delivery Address: ${houseNumber}, ${street}, ${district}, ${city}</p>
+		    <p>Payment Mode: ${paymentMode}</p>
+		    <h4>Total Cost: ₱${totalCost}</h4>
+		  `;
+
+		  // Set the order summary HTML to the modal body
+		  const orderSummaryElement = document.getElementById("orderSummary");
+		  orderSummaryElement.innerHTML = orderSummaryHTML;
+
+		  // Show the modal
+		  $('#receiptModal').modal('show');
+
+		  // Checkout button click event
+		  document.getElementById("checkoutButton").addEventListener("click", async function() {
+		    // Retrieve existing orders from the Transactions table
+			  const snapshot = await get(ref(database, 'Transactions'));
+			  const transactions = snapshot.val();
+
+			  // Generate a new transaction ID
+			  let newTransactionId = 1;
+			  if (transactions) {
+			    // Loop through the transactions to find the last transaction ID
+			    Object.keys(transactions).forEach((transactionId) => {
+			      const currentTransactionId = parseInt(transactionId, 10);
+			      if (currentTransactionId >= newTransactionId) {
+			        newTransactionId = currentTransactionId + 1;
+			      }
+			    });
+			  }
+
+			const currentTime = new Date();
+			const formattedTime = currentTime.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
+			console.log(formattedTime);
+
+		    // Build the transaction object
+		    const transaction = {
+		      transactionID: newTransactionId.toString(),
+		      date: new Date().toLocaleDateString(),
+		      time: formattedTime,
+		      customerEmail: emailCheck,
+		      total: totalCost,
+		      orderDetails: orderItems.map(item => ({
+		        orderID: item.item,
+		        menuName: item.name,
+		        quantity: item.quantity,
+		        price: item.item,
+		        total: item.total
+		      })),
+		      paymentMode: paymentMode,
+		      deliveryAddress: {
+				    houseNumber: houseNumber,
+				    street: street,
+				    district: district,
+				    city: city
+				  }
+		    };
+
+		    // Store the transaction data in the "Transactions" table in the Realtime Database
+		    set(ref(database, `Transactions/${newTransactionId}`), transaction)
+		      .then(() => {
+		        // Refresh the page to clear all fields and reset the form
+		        location.reload();
+		      })
+		      .catch(error => {
+		        console.log('Error storing transaction data:', error);
+		      });
+		  });
+		});
+
+	</script>
+</body>
+</html>
